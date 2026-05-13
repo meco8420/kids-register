@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>キッズレジ</title>
+<title>キッズレジver1</title>
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <style>
@@ -105,7 +105,7 @@ function speak(text) {
 function onScanSuccess(id) {
 
   if (!products[id]) {
-    alert(products[id] + "ないよ！");
+    alert( id + "ないよ！");
     return;
   }
 
@@ -132,11 +132,11 @@ function onScanSuccess(id) {
   speak(item.name);
 }
 
-// QR起動
+// QR起動 //environmentは背面カメラ userは前面カメラ
 const qr = new Html5Qrcode("reader");
 qr.start(
   { facingMode: "environment" },
-  { fps: 10, qrbox: 220 },
+  { fps: 10, qrbox: 400 },
   onScanSuccess
 );
 
