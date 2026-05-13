@@ -23,10 +23,14 @@ body {
   padding: 10px;
   z-index: 10;
   border-bottom: 5px solid #ff4d6d;
+
+  display: flex;
+  justify-content: center;
 }
 
 #reader {
-  width: 100%;
+  width: 260px;   /* ← 小さくする */
+  margin: 0 auto;
   border-radius: 15px;
   overflow: hidden;
 }
@@ -53,7 +57,7 @@ body {
 .item-top {
   display: flex;
   justify-content: space-between;
-  font-size: 20px;
+  font-size: 28px;
   font-weight: bold;
 }
 
@@ -163,6 +167,7 @@ fetch(SHEET_URL)
         price: Number(item.price),
       };
     });
+    render();
   });
 
 // 音
@@ -209,7 +214,7 @@ function startScan() {
 
   scanner.start(
     { facingMode: "environment" },
-    { fps: 10, qrbox: 250 },
+    { fps: 10, qrbox: 300 },
     (decodedText) => {
       onScan(decodedText);
     },
@@ -278,8 +283,7 @@ function render() {
 
     div.innerHTML = `
       <div class="item-top">
-        <span>${item.name}</span>
-        <span>${item.price * item.qty}円</span>
+        ${item.name} ×${item.qty}　${item.price * item.qty}円
       </div>
 
       <div class="item-bottom">
