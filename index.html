@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>キッズレジ</title>
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<style>
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(#ffecd2, #fcb69f);
+  text-align: center;
+  margin: 0;
+}
+
+h1 {
+  font-size: 40px;
+  margin: 10px;
+}
+
+#reader {
+  width: 280px;
+  margin: 10px auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#total {
+  font-size: 50px;
+  background: white;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.item {
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 24px;
+}
+
+button {
+  font-size: 28px;
+  padding: 15px 25px;
+  margin: 10px;
+  border: none;
+  border-radius: 20px;
+}
+
+.reset { background: #ff6b6b; color: white; }
+.checkout { background: #4ecdc4; color: white; }
+
+img {
+  width: 80px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🛒 キッズレジ</h1>
+
+<div id="reader"></div>
+
+<div id="total">0 円</div>
+
+<div id="items"></div>
+
+<button class="reset" onclick="resetCart()">リセット</button>
+<button class="checkout" onclick="checkout()">おかいけい</button>
+
+<script>
+let total = 0;
+let products = {};
+
+// スプレッドシートURL（ここ変える）
+const SHEET_URL = "https://opensheet.elk.sh/1dwXnIlp0ejMUqyNpdbQyQa2StgdP8Suh9WxxDQysoqQ/Sheet1";
+
+// 商品読み込み
+fetch(SHEET_URL)
+  .then(res => res.json())
+  .then(data => {
+    data.forEach(item => {
+      products[item.id] = {
+        name: item.name,
+        price: Number(item.price),
+        image: item.image || ""
+      };
+    });
+  });
+
+// 音
+function beep() {
+  new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3").play();
+}
+
+// 読み上げ
+function speak(text) {
+  speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+}
+
+// スキャン成功
+function onScanSuccess(id) {
+
+  if (!products[id]) {
+    alert("ないよ！");
+    return;
+  }
+
+  const item = products[id];
+  total += item.price;
+
+  // 合計更新
+  document.getElementById("total").innerText = total + " 円";
+
+  // 商品表示
+  const div = document.createElement("div");
+  div.className = "item";
+
+  div.innerHTML = `
+    ${item.image ? `<img src="${item.image}"><br>` : ""}
+    ${item.name}<br>
+    +${item.price}円
+  `;
+
+  document.getElementById("items").appendChild(div);
+
+  // 音と読み上げ
+  beep();
+  speak(item.name);
+}
+
+// QR起動
+const qr = new Html5Qrcode("reader");
+qr.start(
+  { facingMode: "environment" },
+  { fps: 10, qrbox: 220 },
+  onScanSuccess
+);
+
+// リセット
+function resetCart() {
+  total = 0;
+  document.getElementById("total").innerText = "0 円";
+  document.getElementById("items").innerHTML = "";
+}
+
+// 会計
+function checkout() {
+  speak("おかいけいは " + total + " えんです");
+  alert("おかいけい：" + total + "円");
+}
+</script>
+
+</body>
+</html>
