@@ -102,8 +102,9 @@ function speak(text) {
 }
 
 // スキャン成功
-function onScanSuccess(id) {
+function onScanSuccess(decodedText, decodedResult) {
 
+  const id = decodedText.trim();
   if (!products[id]) {
     alert( id + "ないよ！");
     return;
