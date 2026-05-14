@@ -30,7 +30,7 @@ body {
 
 #reader {
   width: 500px;
-  height: 700px;   /* ← 小さくする */
+  height: 600px;   /* ← 小さくする */
   margin: 0 auto;
   border-radius: 15px;
   overflow: hidden;
@@ -217,7 +217,7 @@ function startScan() {
 
   scanner.start(
     { facingMode: "environment" },
-    { fps: 10, qrbox: { width: 450, height: 450 } },
+    { fps: 10, qrbox: { width: 350, height: 350 } },
     (decodedText) => {
       onScan(decodedText);
     },
