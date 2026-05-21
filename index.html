@@ -139,7 +139,7 @@ body {
 </head>
 <body>
 <div class="top">
-  <button onclick="startScan()" style="font-size:20px;padding:10px;border-radius:10px;">
+  <button onclick="startScan()" style="font-size:20px;padding:10px;border-radius:10px;width:100%;">
     📷 スキャン開始
   </button>
   <div id="reader"></div>
@@ -226,8 +226,7 @@ function startScan() {
   scanner = new Html5Qrcode("reader");
 
   scanner.start(
-    { facingMode: "environment" ,
-      focusMode: "continuous"
+    { facingMode: "environment"
      },
     { fps: 20, 
       qrbox: function(w, h) {
