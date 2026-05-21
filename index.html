@@ -31,7 +31,7 @@ body {
 #reader {
   width: 90vw;
   max-width: 400px;
-  aspect-ratio: 3 / 4;      /* ← ★これが超重要 */
+  aspect-ratio: 1 / 1;      /* ← ★これが超重要 */
   margin: 0 auto;
   border-radius: 15px;
   overflow: hidden;
@@ -137,6 +137,12 @@ body {
 </style>
 </head>
 <body>
+  <div>
+    <button onclick="startScan()" style="font-size:20px;padding:10px;border-radius:10px;">
+      📷 スキャン開始
+    </button>
+    <div id="reader"></div>
+  </div>
 <div class="top">
   <div id="reader"></div>
 </div>
@@ -161,9 +167,9 @@ const SCAN_INTERVAL = 1500; // 1.5秒
 
 const SHEET_URL = "https://opensheet.elk.sh/1dwXnIlp0ejMUqyNpdbQyQa2StgdP8Suh9WxxDQysoqQ/シート1";
 
-window.addEventListener("load", () => {
-  startScan();
-});
+// window.addEventListener("load", () => {
+//   startScan();
+// });
 
 // 商品取得
 fetch(SHEET_URL)
@@ -221,9 +227,7 @@ function startScan() {
   scanner = new Html5Qrcode("reader");
 
   scanner.start(
-    { facingMode: "environment",
-      width: {ideal:1280},
-      height: {ideal:720}
+    { facingMode:{ exact: "environment" }
      },
     { fps: 15, 
       qrbox: function(w, h) {
