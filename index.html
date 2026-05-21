@@ -29,18 +29,24 @@ body {
 }
 
 #reader {
-  width: 500px;
-  height: 600px;   /* ← 小さくする */
+  width: 90vw;
+  max-width: 400px;
+  aspect-ratio: 3 / 4;      /* ← ★これが超重要 */
   margin: 0 auto;
   border-radius: 15px;
   overflow: hidden;
 }
 
+#reader video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;        /* ← ★これも必須 */
+}
+
 /* リスト */
 #list {
-  margin-top: 600px;
+  margin-top: calc(90vw * 4 / 3 + 20px);
   margin-bottom: 160px;
-  height: calc(100vh - 380px);
   overflow-y: auto;
   padding: 10px;
 }
@@ -134,7 +140,6 @@ body {
 <div class="top">
   <div id="reader"></div>
 </div>
-<body>
 <div id="list"></div>
 
 <div class="bottom">
@@ -220,7 +225,14 @@ function startScan() {
       width: {ideal:1280},
       height: {ideal:720}
      },
-    { fps: 15, qrbox: { width: 350, height: 350 } },
+    { fps: 15, 
+      qrbox: function(w, h) {
+             const size = Math.min(w, h) * 0.8;
+             return {
+               width: size,
+               height: size
+            };
+} },
     (decodedText) => {
       onScan(decodedText);
     },
