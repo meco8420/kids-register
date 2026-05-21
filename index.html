@@ -38,7 +38,7 @@ body {
 
 /* リスト */
 #list {
-  margin-top: 320px;
+  margin-top: 600px;
   margin-bottom: 160px;
   height: calc(100vh - 380px);
   overflow-y: auto;
@@ -216,8 +216,11 @@ function startScan() {
   scanner = new Html5Qrcode("reader");
 
   scanner.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: { width: 350, height: 350 } },
+    { facingMode: "environment",
+      width: {ideal:1280},
+      height: {ideal:720}
+     },
+    { fps: 15, qrbox: { width: 350, height: 350 } },
     (decodedText) => {
       onScan(decodedText);
     },
