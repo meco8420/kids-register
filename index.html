@@ -50,6 +50,7 @@ body {
   margin-bottom: 160px;
   overflow-y: auto;
   padding: 10px;
+  background: linear-gradient(180deg, #a0e9ff, #fff7a0);
 }
 
 /* 商品カード */
@@ -135,11 +136,52 @@ body {
   background: #ef476f;
   color: white;
 }
+
+.scan-btn {
+  font-size: 18px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+
+  color: white;
+  background: linear-gradient(145deg, #06d6a0, #00b894);
+
+  box-shadow:
+    0 4px 0 #019875,
+    0 0 10px rgba(0,255,150,0.6);
+
+  transition: all 0.15s ease;
+}
+
+/* 押したとき */
+.scan-btn:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #019875,
+    0 0 5px rgba(0,255,150,0.8);
+}
+
+/* ちょい光るアニメ */
+.scan-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,255,150,0.6);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.scan-btn:hover::after {
+  opacity: 1;
+}
+
 </style>
 </head>
 <body>
 <div class="top">
-  <button onclick="startScan()" style="font-size:20px;padding:10px;border-radius:10px;width:100%;">
+  <button class="scan-btn" onclick="startScan()">
     📷 スキャン開始
   </button>
   <div id="reader"></div>
